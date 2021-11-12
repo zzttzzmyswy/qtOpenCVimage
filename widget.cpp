@@ -12,11 +12,6 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   customPlot.plotLayout()->addElement(0, 0, customPlotTitle);
   customPlot.graph(0)->setLineStyle(QCPGraph::lsImpulse);
   ui->infLabel->setText(QString("启动完成"));
-  /* opencv 测试代码 */
-  //  Mat image = imread("/home/zzt/图片/Screenshot_20211004_183443.png",
-  //                     1); //一定要使用绝对路径，其他可以回报错
-  //  namedWindow("Display window", WINDOW_AUTOSIZE);
-  //  imshow("Display window", image);
 }
 
 Widget::~Widget() {
