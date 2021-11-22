@@ -12,8 +12,22 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # User start
-INCLUDEPATH += /usr/include/opencv4
-LIBS += /usr/lib/x86_64-linux-gnu/libopencv_*.so
+
+WINPC{
+##### windows
+    INCLUDEPATH += D:/App/openCV/opencv/build/include/
+    QMAKE_CXXFLAGS += /utf-8
+    CONFIG(debug, debug|release) {
+    LIBS += D:/App/openCV/opencv/build/x64/vc15/lib/opencv_world454d.lib
+    } else {
+    LIBS += D:/App/openCV/opencv/build/x64/vc15/lib/opencv_world454.lib
+    }
+}else{
+##### linux
+    INCLUDEPATH += /usr/include/opencv4
+    LIBS += /usr/lib/x86_64-linux-gnu/libopencv_*.so
+}
+
 
 # User end
 
