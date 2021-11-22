@@ -142,6 +142,10 @@ private slots:
 
   void on_p0Button1_22_clicked();
 
+  void on_BTButton_3_clicked();
+
+  void on_BTButton_4_clicked();
+
 private:
   Ui::Widget *ui;
 };

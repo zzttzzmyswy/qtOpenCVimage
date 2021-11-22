@@ -54,10 +54,11 @@ public:
   void makeLaplacianSharpen(QImage inimage, QImage *outimage);
   void makeHomomorphicFilter(QImage inimage, QImage *outimage, double D0,
                              double gammaH, double gammaL, double c);
+  void makeRotate(QImage inimage, QImage *outimage1, QImage *outimage2,
+                  QImage *outimage3);
 
   cv::Mat QImageToMat(QImage image);
   QImage MatToQImage(const cv::Mat &mat);
   cv::Mat openCvFreqFilt(cv::Mat scr, cv::Mat blur);
 };
-
 #endif // IMAGEMAKE_H

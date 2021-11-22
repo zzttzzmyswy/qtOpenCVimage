@@ -479,4 +479,18 @@ void Widget::on_p0Button1_22_clicked() {
   imMake.makeHomomorphicFilter(
       image0, &image2, ui->spinBox_20->value(), ui->doubleSpinBox_4->value(),
       ui->doubleSpinBox_5->value(), ui->doubleSpinBox_6->value());
+  ui->infLabel->setText(QString("同态滤波计算完毕，结果在图像3"));
+}
+
+void Widget::on_BTButton_3_clicked() {
+  image1 = image0.mirrored(true, false);
+  image2 = image0.mirrored(false, true);
+  image3 = image0.mirrored(true, true);
+  ui->infLabel->setText(QString("图像翻转计算完毕，结果在图像2,3,4"));
+}
+
+void Widget::on_BTButton_4_clicked() {
+  imMake.makeRotate(image0.copy(), &image1, &image2, &image3);
+  ui->infLabel->setText(
+      QString("图像旋转计算完毕，顺时针旋转，结果在图像2,3,4"));
 }

@@ -815,6 +815,26 @@ void imageMake::makeHomomorphicFilter(QImage inimage, QImage *outimage,
     (*outimage) = MatToQImage(mat2(r)).copy();
 }
 
+void imageMake::makeRotate(QImage inimage, QImage *outimage1, QImage *outimage2,
+                           QImage *outimage3) {
+  if (inimage.isNull())
+    return;
+  cv::Mat mat0;
+  mat0 = QImageToMat(inimage);
+  transpose(mat0, mat0);
+  flip(mat0, mat0, 1);
+  if (outimage1 != NULL)
+    (*outimage1) = MatToQImage(mat0).copy();
+  transpose(mat0, mat0);
+  flip(mat0, mat0, 1);
+  if (outimage2 != NULL)
+    (*outimage2) = MatToQImage(mat0).copy();
+  transpose(mat0, mat0);
+  flip(mat0, mat0, 1);
+  if (outimage3 != NULL)
+    (*outimage3) = MatToQImage(mat0).copy();
+}
+
 cv::Mat imageMake::QImageToMat(QImage image) {
   cv::Mat mat;
   switch (image.format()) {
