@@ -40,6 +40,8 @@ public:
   //  void updateImage2(void);
   //  void updateImage3(void);
 
+  virtual bool eventFilter(QObject *obj, QEvent *event) override;
+
 public slots:
   void timeOfUp();
 

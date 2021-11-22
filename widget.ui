@@ -1757,13 +1757,13 @@
            <number>1</number>
           </property>
           <property name="maximum">
-           <number>30</number>
+           <number>120</number>
           </property>
           <property name="singleStep">
            <number>1</number>
           </property>
           <property name="value">
-           <number>5</number>
+           <number>30</number>
           </property>
          </widget>
         </item>
@@ -1773,13 +1773,13 @@
            <number>1</number>
           </property>
           <property name="maximum">
-           <number>80</number>
+           <number>120</number>
           </property>
           <property name="pageStep">
            <number>1</number>
           </property>
           <property name="value">
-           <number>5</number>
+           <number>30</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -1838,13 +1838,13 @@
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>30</number>
+             <number>120</number>
             </property>
             <property name="singleStep">
              <number>1</number>
             </property>
             <property name="value">
-             <number>5</number>
+             <number>20</number>
             </property>
            </widget>
           </item>
@@ -1854,7 +1854,7 @@
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>80</number>
+             <number>120</number>
             </property>
             <property name="singleStep">
              <number>1</number>
@@ -1863,7 +1863,7 @@
              <number>5</number>
             </property>
             <property name="value">
-             <number>5</number>
+             <number>20</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1967,13 +1967,13 @@
            <number>1</number>
           </property>
           <property name="maximum">
-           <number>30</number>
+           <number>120</number>
           </property>
           <property name="singleStep">
            <number>1</number>
           </property>
           <property name="value">
-           <number>5</number>
+           <number>30</number>
           </property>
          </widget>
         </item>
@@ -1983,13 +1983,13 @@
            <number>1</number>
           </property>
           <property name="maximum">
-           <number>80</number>
+           <number>120</number>
           </property>
           <property name="pageStep">
            <number>1</number>
           </property>
           <property name="value">
-           <number>5</number>
+           <number>30</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -1998,7 +1998,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -2037,7 +2037,10 @@
         <item>
          <widget class="QSpinBox" name="spinBox_20">
           <property name="maximum">
-           <number>200</number>
+           <number>500</number>
+          </property>
+          <property name="value">
+           <number>80</number>
           </property>
          </widget>
         </item>
@@ -2054,7 +2057,7 @@
            <double>0.010000000000000</double>
           </property>
           <property name="value">
-           <double>3.000000000000000</double>
+           <double>9.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -2071,7 +2074,7 @@
            <double>0.010000000000000</double>
           </property>
           <property name="value">
-           <double>0.250000000000000</double>
+           <double>5.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -2192,11 +2195,6 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QWidget" name="tabM6">
-      <attribute name="title">
-       <string>Tab 2</string>
-      </attribute>
-     </widget>
     </widget>
    </item>
    <item>
@@ -2231,38 +2229,6 @@
  <resources/>
  <connections>
   <connection>
-   <sender>spinBox_13</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_13</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>361</x>
-     <y>659</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>723</x>
-     <y>659</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTSlider_13</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_13</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>723</x>
-     <y>659</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>361</x>
-     <y>659</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>BTSlider_14</sender>
    <signal>valueChanged(int)</signal>
    <receiver>spinBox_14</receiver>
@@ -2275,6 +2241,38 @@
     <hint type="destinationlabel">
      <x>365</x>
      <y>695</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_19</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BTSlider_21</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>321</x>
+     <y>547</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>748</x>
+     <y>547</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_13</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BTSlider_13</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>361</x>
+     <y>659</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>723</x>
+     <y>659</y>
     </hint>
    </hints>
   </connection>
@@ -2295,22 +2293,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>BTSlider_10</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_10</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>732</x>
-     <y>652</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>327</x>
-     <y>651</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>spinBox_10</sender>
    <signal>valueChanged(int)</signal>
    <receiver>BTSlider_10</receiver>
@@ -2323,166 +2305,6 @@
     <hint type="destinationlabel">
      <x>732</x>
      <y>652</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTSlider_11</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_11</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>726</x>
-     <y>702</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>313</x>
-     <y>701</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_11</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_11</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>313</x>
-     <y>701</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>726</x>
-     <y>702</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_12</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_12</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>313</x>
-     <y>751</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>726</x>
-     <y>752</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTSlider_12</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_12</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>726</x>
-     <y>752</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>313</x>
-     <y>751</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>345</x>
-     <y>707</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>731</x>
-     <y>707</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTSlider_3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>731</x>
-     <y>707</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>345</x>
-     <y>707</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>BTSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>311</x>
-     <y>621</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>714</x>
-     <y>622</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTSlider_21</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>748</x>
-     <y>547</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>311</x>
-     <y>621</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_15</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_16</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>347</x>
-     <y>497</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>721</x>
-     <y>498</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTSlider_16</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_15</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>721</x>
-     <y>498</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>347</x>
-     <y>497</y>
     </hint>
    </hints>
   </connection>
@@ -2503,6 +2325,38 @@
    </hints>
   </connection>
   <connection>
+   <sender>BTSlider_11</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_11</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>726</x>
+     <y>702</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>701</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTSlider_10</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_10</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>732</x>
+     <y>652</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>327</x>
+     <y>651</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>BTSlider_17</sender>
    <signal>valueChanged(int)</signal>
    <receiver>spinBox_16</receiver>
@@ -2519,34 +2373,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_17</sender>
+   <sender>spinBox_15</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_18</receiver>
+   <receiver>BTSlider_16</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>364</x>
-     <y>610</y>
+     <x>347</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>745</x>
-     <y>610</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BTSlider_18</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_17</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>745</x>
-     <y>610</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>364</x>
-     <y>610</y>
+     <x>721</x>
+     <y>498</y>
     </hint>
    </hints>
   </connection>
@@ -2567,18 +2405,130 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_18</sender>
+   <sender>BTSlider_12</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_19</receiver>
+   <receiver>spinBox_12</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>364</x>
-     <y>644</y>
+     <x>726</x>
+     <y>752</y>
     </hint>
     <hint type="destinationlabel">
+     <x>313</x>
+     <y>751</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTSlider_13</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_13</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>723</x>
+     <y>659</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>361</x>
+     <y>659</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_12</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BTSlider_12</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>751</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>726</x>
+     <y>752</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTSlider_3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>731</x>
+     <y>707</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>707</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_11</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BTSlider_11</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>701</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>726</x>
+     <y>702</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BTSlider_3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>345</x>
+     <y>707</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>731</x>
+     <y>707</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTSlider_21</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>748</x>
+     <y>547</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>621</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTSlider_18</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_17</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
      <x>745</x>
-     <y>644</y>
+     <y>610</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>364</x>
+     <y>610</y>
     </hint>
    </hints>
   </connection>
@@ -2599,18 +2549,66 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_19</sender>
+   <sender>spinBox</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>BTSlider_21</receiver>
+   <receiver>BTSlider</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>321</x>
-     <y>547</y>
+     <x>311</x>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
-     <x>748</x>
-     <y>547</y>
+     <x>714</x>
+     <y>622</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_17</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BTSlider_18</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>364</x>
+     <y>610</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>745</x>
+     <y>610</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_18</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BTSlider_19</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>364</x>
+     <y>644</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>745</x>
+     <y>644</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTSlider_16</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_15</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>721</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>347</x>
+     <y>497</y>
     </hint>
    </hints>
   </connection>

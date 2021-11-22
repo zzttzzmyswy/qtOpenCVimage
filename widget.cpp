@@ -8,11 +8,16 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   timerOfUpImage.start(100);
   customPlot.addGraph();
   customPlot.plotLayout()->insertRow(0);
-  customPlotTitle = new QCPTextElement(&customPlot, tr("Grayscale histogram"));
+  customPlotTitle = new QCPTextElement(&customPlot, tr("灰度直方图"));
   customPlot.plotLayout()->addElement(0, 0, customPlotTitle);
   customPlot.graph(0)->setLineStyle(QCPGraph::lsImpulse);
   ui->infLabel->setText(QString("启动完成"));
   ui->doubleSpinBox->setDecimals(2);
+
+  ui->image0showLabel->installEventFilter(this);
+  ui->image1showLabel->installEventFilter(this);
+  ui->image2showLabel->installEventFilter(this);
+  ui->image3showLabel->installEventFilter(this);
 }
 
 Widget::~Widget() {
@@ -53,6 +58,66 @@ void Widget::saveImage(QImage image) {
     return;
   std::string fileAsSave = filename.toStdString();
   imwrite(fileAsSave, mat0);
+}
+
+bool Widget::eventFilter(QObject *obj, QEvent *event) {
+  /* 指定某个QLabel */
+  if (obj == ui->image0showLabel) {
+    /* mouse button pressed */
+    if (event->type() == QEvent::MouseButtonPress) {
+      QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+      if (mouseEvent->button() == Qt::LeftButton) {
+        imMake.makeHistogram(image0, &customPlot, &image1);
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else if (obj == ui->image1showLabel) {
+    /* mouse button pressed */
+    if (event->type() == QEvent::MouseButtonPress) {
+      QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+      if (mouseEvent->button() == Qt::LeftButton) {
+        imMake.makeHistogram(image1, &customPlot, NULL);
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else if (obj == ui->image2showLabel) {
+    /* mouse button pressed */
+    if (event->type() == QEvent::MouseButtonPress) {
+      QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+      if (mouseEvent->button() == Qt::LeftButton) {
+        imMake.makeHistogram(image2, &customPlot, NULL);
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else if (obj == ui->image3showLabel) {
+    /* mouse button pressed */
+    if (event->type() == QEvent::MouseButtonPress) {
+      QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+      if (mouseEvent->button() == Qt::LeftButton) {
+        imMake.makeHistogram(image3, &customPlot, NULL);
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else {
+    // pass the event on to the parent class
+    return QWidget::eventFilter(obj, event);
+  }
 }
 
 void Widget::timeOfUp() {

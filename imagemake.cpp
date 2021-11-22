@@ -45,18 +45,13 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
       yMax = vecY.at(j);
   }
 
-  //建表
+  /* 建表 */
   pchart->xAxis->setLabel(tr("灰度"));
   pchart->yAxis->setLabel(tr("出现次数"));
   pchart->xAxis->setRange(0, 255);
   pchart->yAxis->setRange(0, yMax);
   pchart->graph(0)->setData(vecX, vecY);
-  //    m_pChart->graph(0)->setPen(QPen(Qt::red));
   pchart->replot();
-
-  //  chartview->setChart(chart);
-  //  chartview->setRenderHint(QPainter::Antialiasing);
-  //  chartview->setVisible(true);
 }
 
 void imageMake::makeHistogramAveraging(QImage inimage, QCustomPlot *pchart,
@@ -637,10 +632,11 @@ void imageMake::makeFrequencyDfilter(QImage inimage, QImage *outimage1,
                pow(float(j - mat1.cols / 2), 2));
       switch (type) {
       case 0: /* 理想滤波器 */
-        gaussianBlur.at<float>(i, j) = d < dD ? 1 : 0;
+        gaussianBlur.at<float>(i, j) = (d < dD) ? 1.0 : 0.0;
+        break;
       case 1: /* 高斯滤波器 */
         /* expf为以e为底求幂（必须为float型） */
-        gaussianBlur.at<float>(i, j) = expf(-d / D0);
+        gaussianBlur.at<float>(i, j) = expf(-pow(d, 2) / D0);
         break;
       case 2: /* 巴特沃斯滤波器 */
         gaussianBlur.at<float>(i, j) = 1.0 / (1 + pow(d / dD, nN));
