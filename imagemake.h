@@ -42,6 +42,7 @@ public:
   void makeMeanFilter(QImage inimage, QImage *outimage, quint32 k);
   void makeGaussianFilter(QImage inimage, QImage *outimage, quint32 k);
   void makeMedianFilter(QImage inimage, QImage *outimage, quint32 k);
+  void makeAdaptiveMedianFilter(QImage inimage, QImage *outimage);
   void makeBilateralFilter(QImage inimage, QImage *outimage, quint32 k,
                            quint32 sigmaColor, quint32 sigmaSpace);
   void makeFrequencyDfilter(QImage inimage, QImage *outimage1,

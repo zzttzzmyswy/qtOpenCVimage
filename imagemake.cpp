@@ -18,6 +18,9 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
   if (grayimage.isNull())
     return;
 
+  if (outimage != NULL)
+    (*outimage) = grayimage.copy();
+
   int nWidth = inimage.width();
   int nHeight = inimage.height();
   QVector<double> vecX;
