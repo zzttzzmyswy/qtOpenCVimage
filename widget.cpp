@@ -411,5 +411,7 @@ void Widget::on_p0Button1_21_clicked() {
 }
 
 void Widget::on_p0Button1_22_clicked() {
-  imMake.makeHomomorphicFilter(image0, &image2, 80, 3, 0.25, 1);
+  imMake.makeHomomorphicFilter(
+      image0, &image2, ui->spinBox_20->value(), ui->doubleSpinBox_4->value(),
+      ui->doubleSpinBox_5->value(), ui->doubleSpinBox_6->value());
 }

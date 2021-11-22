@@ -774,6 +774,7 @@ void imageMake::makeHomomorphicFilter(QImage inimage, QImage *outimage,
     return;
   /* 创建计算矩阵 */
   cv::Mat mat0, mat1, mat2;
+  mat0 = QImageToMat(grayimage);
   /* 获取进行dtf的最优尺寸 */
   int mat0W = getOptimalDFTSize(mat0.cols);
   int mat0H = getOptimalDFTSize(mat0.rows);
@@ -810,11 +811,6 @@ void imageMake::makeHomomorphicFilter(QImage inimage, QImage *outimage,
         butterworth_complex.at<float>(i, j) = W * (1 - r) + lower;
     }
   }
-
-  //  Mat butterworth_complex;
-  //  // make two channels to match complex
-  //  Mat butterworth_channels[] = {Mat_<float>(single), Mat::zeros(mat1,
-  //  CV_32F)}; merge(butterworth_channels, 2, butterworth_complex);
 
   mat2 = openCvFreqFilt(mat1.clone(), butterworth_complex);
   cv::Rect r = cv::Rect(cv::Point(0, 0), cv::Point(mat0.cols, mat0.rows));
