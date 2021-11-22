@@ -12,6 +12,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   customPlot.plotLayout()->addElement(0, 0, customPlotTitle);
   customPlot.graph(0)->setLineStyle(QCPGraph::lsImpulse);
   ui->infLabel->setText(QString("启动完成"));
+  ui->doubleSpinBox->setDecimals(2);
 }
 
 Widget::~Widget() {
@@ -20,12 +21,16 @@ Widget::~Widget() {
 }
 
 void Widget::on_p0Button1_pressed() {
-  QString strImageFile = QFileDialog::getOpenFileName(0, "Open", "/home",
-                                                      tr("Images(*.png *jpg)"));
+  QString strImageFile = QFileDialog::getOpenFileName(
+      0, "Open", "/home", tr("Images(*.png *jpg *bmp)"));
   if (strImageFile.isEmpty())
     return;
   image0 = QImage(strImageFile);
   ui->infLabel->setText(QString("打开文件:" + strImageFile));
+  image0Szie = image0.size();
+  ui->label_20->setText(QString("文件信息: %1 X %2 ")
+                            .arg(image0Szie.width())
+                            .arg(image0Szie.height()));
 }
 
 void Widget::on_p0Button1_2_clicked() {
@@ -41,8 +46,9 @@ void Widget::on_p0Button1_3_clicked() {
 }
 void Widget::saveImage(QImage image) {
   cv::Mat mat0 = imMake.QImageToMat(image);
-  QString filename = QFileDialog::getSaveFileName(
-      this, tr("Save Image"), "", tr("Images (*.png *.bmp *.jpg)")); //选择路径
+  QString filename =
+      QFileDialog::getSaveFileName(this, tr("Save Image"), "optput.jpg",
+                                   tr("Images (*.png *.bmp *.jpg)")); //选择路径
   if (filename.isEmpty())
     return;
   std::string fileAsSave = filename.toStdString();
@@ -293,3 +299,97 @@ void Widget::on_p0Button3_2_clicked() { saveImage(image1); }
 void Widget::on_p0Button3_3_clicked() { saveImage(image2); }
 
 void Widget::on_p0Button3_4_clicked() { saveImage(image3); }
+
+void Widget::on_BTSlider_15_valueChanged(int value) {
+  double inf;
+  if (value <= 100) {
+    inf = value / 100.0;
+    ui->doubleSpinBox->setValue(inf);
+  } else {
+    inf = ((value - 100) * 9 + 100) / 100.0;
+    ui->doubleSpinBox->setValue(inf);
+  }
+  image0ToSzie = QSize(qint64(image0Szie.width() * inf) < 1
+                           ? 1
+                           : qint64(image0Szie.width() * inf),
+                       qint64(image0Szie.height() * inf) < 1
+                           ? 1
+                           : qint64(image0Szie.height() * inf));
+  ui->label_21->setText(QString("缩放后大小: %1 X %2")
+                            .arg(image0ToSzie.width())
+                            .arg(image0ToSzie.height()));
+}
+
+void Widget::on_doubleSpinBox_valueChanged(double arg1) {
+  double inf;
+  if (arg1 <= 1) {
+    inf = arg1 * 100;
+    ui->BTSlider_15->setValue(inf);
+  } else {
+    inf = (arg1 * 100 - 100) / 9.0 + 100;
+    ui->BTSlider_15->setValue(inf);
+  }
+  image0ToSzie = QSize(qint64(image0Szie.width() * arg1) < 1
+                           ? 1
+                           : qint64(image0Szie.width() * arg1),
+                       qint64(image0Szie.height() * arg1) < 1
+                           ? 1
+                           : qint64(image0Szie.height() * arg1));
+  ui->label_21->setText(QString("缩放后大小: %1 X %2")
+                            .arg(image0ToSzie.width())
+                            .arg(image0ToSzie.height()));
+}
+
+void Widget::on_BTButton_2_clicked() {
+  if (image0.isNull())
+    return;
+  image1 = image0.scaled(image0ToSzie, Qt::KeepAspectRatio,
+                         Qt::SmoothTransformation);
+  ui->infLabel->setText(
+      QString("图片缩放已计算完毕,结果在图像2,分辨率为 %1 X %2")
+          .arg(image1.size().width())
+          .arg(image1.size().height()));
+}
+
+void Widget::on_p0Button1_16_clicked() {
+  imMake.makeFrequencyDfilter(image0, &image2, &image3, ui->spinBox_15->value(),
+                              0, 1);
+  ui->infLabel->setText(QString(
+      "高斯滤波已计算完毕,高斯低通滤波结果在图像3，高斯高通滤波结果在图像4"));
+}
+
+void Widget::on_p0Button1_17_clicked() {
+  imMake.makeFrequencyDfilter(image0, &image2, &image3, ui->spinBox_16->value(),
+                              0, 0);
+  ui->infLabel->setText(QString(
+      "理想滤波已计算完毕,理想低通滤波结果在图像3，理想高通滤波结果在图像4"));
+}
+
+void Widget::on_p0Button1_18_clicked() {
+  imMake.makeFrequencyDfilter(image0, &image2, &image3, ui->spinBox_17->value(),
+                              ui->spinBox_18->value(), 2);
+  ui->infLabel->setText(
+      QString("巴特沃斯滤波已计算完毕,"
+              "巴特沃斯低通滤波结果在图像3，巴特沃斯高通滤波结果在图像4"));
+}
+
+void Widget::on_doubleSpinBox_2_valueChanged(double arg1) {
+  ui->BTSlider_19->setValue(arg1 * 100);
+}
+
+void Widget::on_BTSlider_20_valueChanged(int value) {
+  ui->doubleSpinBox_2->setValue(value / 100.0);
+}
+
+void Widget::on_p0Button1_19_clicked() {
+  imMake.makeUSM(image0, &image2, ui->doubleSpinBox_2->value(),
+                 ui->spinBox_19->value());
+  ui->infLabel->setText(QString("USM锐化已计算完毕,"
+                                "计算结果在图像3"));
+}
+
+void Widget::on_p0Button1_20_clicked() {
+  imMake.makeLaplacianSharpen(image0, &image2);
+  ui->infLabel->setText(QString("拉普拉斯算子图像锐化已计算完毕,"
+                                "计算结果在图像3"));
+}

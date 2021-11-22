@@ -31,6 +31,8 @@ public:
   QCustomPlot customPlot;
   QCPTextElement *customPlotTitle;
   imageMake imMake;
+  QSize image0Szie = QSize(1920, 1080);
+  QSize image0ToSzie = QSize(1920, 1080);
 
   void saveImage(QImage image);
   //  void updateImage0(void);
@@ -113,6 +115,26 @@ private slots:
   void on_p0Button3_3_clicked();
 
   void on_p0Button3_4_clicked();
+
+  void on_BTSlider_15_valueChanged(int value);
+
+  void on_doubleSpinBox_valueChanged(double arg1);
+
+  void on_BTButton_2_clicked();
+
+  void on_p0Button1_16_clicked();
+
+  void on_p0Button1_17_clicked();
+
+  void on_p0Button1_18_clicked();
+
+  void on_doubleSpinBox_2_valueChanged(double arg1);
+
+  void on_BTSlider_20_valueChanged(int value);
+
+  void on_p0Button1_19_clicked();
+
+  void on_p0Button1_20_clicked();
 
 private:
   Ui::Widget *ui;

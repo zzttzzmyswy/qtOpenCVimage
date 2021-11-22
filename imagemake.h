@@ -17,8 +17,6 @@
 
 using namespace cv;
 
-using namespace QtCharts;
-
 class imageMake : public QObject {
   Q_OBJECT
 public:
@@ -46,8 +44,14 @@ public:
   void makeMedianFilter(QImage inimage, QImage *outimage, quint32 k);
   void makeBilateralFilter(QImage inimage, QImage *outimage, quint32 k,
                            quint32 sigmaColor, quint32 sigmaSpace);
+  void makeFrequencyDfilter(QImage inimage, QImage *outimage1,
+                            QImage *outimage2, quint32 dD, quint32 nN,
+                            quint8 type);
+  void makeUSM(QImage inimage, QImage *outimage, float w, uint32_t Threshold);
+  void makeLaplacianSharpen(QImage inimage, QImage *outimage);
   cv::Mat QImageToMat(QImage image);
   QImage MatToQImage(const cv::Mat &mat);
+  cv::Mat openCvFreqFilt(cv::Mat scr, cv::Mat blur);
 };
 
 #endif // IMAGEMAKE_H

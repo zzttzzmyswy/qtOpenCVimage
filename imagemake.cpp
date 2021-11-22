@@ -522,6 +522,171 @@ CV_EXPORTS_W void bilateralFilter( InputArray src, OutputArray dst, int d,
     (*outimage) = MatToQImage(mat1).copy();
 }
 
+/* type:0-理想 1-高斯 2-巴特沃斯 */
+void imageMake::makeFrequencyDfilter(QImage inimage, QImage *outimage1,
+                                     QImage *outimage2, quint32 dD, quint32 nN,
+                                     quint8 type) {
+  if (inimage.isNull())
+    return;
+  /* 判断是否为灰度图，若不是是灰度图则转化 */
+  QImage grayimage;
+  if (!inimage.allGray()) {
+    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  } else {
+    grayimage = inimage.copy();
+  }
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0, mat1, mat2, mat3;
+  float D0 = 2 * dD * dD;
+  mat0 = QImageToMat(grayimage);
+  /* 获取进行dtf的最优尺寸 */
+  int mat0W = getOptimalDFTSize(mat0.cols);
+  int mat0H = getOptimalDFTSize(mat0.rows);
+  /* void cv::copyMakeBorder(
+        cv::InputArray src,
+        cv::OutputArray dst,
+        int top,
+        int bottom,
+        int left,
+        int right,
+        int borderType,
+        const cv::Scalar &value = cv::Scalar()) */
+  /* 边界增加 */
+  copyMakeBorder(mat0, mat1, 0, mat0H - mat0.rows, 0, mat0W - mat0.cols,
+                 BORDER_CONSTANT, Scalar::all(0));
+  /* 将图像转换为flaot型 */
+  mat1.convertTo(mat1, CV_32FC1);
+
+  /* 生成滤波核 */
+  cv::Mat gaussianBlur(mat1.size(), CV_32FC1);
+  cv::Mat gaussianSharpen(mat1.size(), CV_32FC1);
+  float d;
+  for (int i = 0; i < mat1.rows; i++) {
+    for (int j = 0; j < mat1.cols; j++) {
+      d = sqrt(pow(float(i - mat1.rows / 2), 2) +
+               pow(float(j - mat1.cols / 2), 2));
+      switch (type) {
+      case 0: /* 理想滤波器 */
+        gaussianBlur.at<float>(i, j) = d < dD ? 1 : 0;
+      case 1: /* 高斯滤波器 */
+        /* expf为以e为底求幂（必须为float型） */
+        gaussianBlur.at<float>(i, j) = expf(-d / D0);
+        break;
+      case 2: /* 巴特沃斯滤波器 */
+        gaussianBlur.at<float>(i, j) = 1.0 / (1 + pow(d / dD, nN));
+        break;
+      default:
+        return;
+      }
+      /* 高通和低通滤波的关系为和为1 */
+      gaussianSharpen.at<float>(i, j) = 1.0 - gaussianBlur.at<float>(i, j);
+    }
+  }
+
+  //  imshow("高斯低通滤波器", gaussianBlur);
+  //  imshow("高斯高通滤波器", gaussianSharpen);
+
+  mat2 = openCvFreqFilt(mat1.clone(), gaussianBlur);
+  mat3 = openCvFreqFilt(mat1.clone(), gaussianSharpen);
+  /*
+   * 矩阵类型转换
+    void convertTo(
+    OutputArray m,      输出矩阵
+    int rtype,          输出矩阵的类型
+    double alpha=1,     转换时的比例
+    double beta=0       转换时的偏移 out = in * alpha + beta
+    )
+
+   */
+  mat2.convertTo(mat2, CV_8UC1, 255);
+  if (outimage1 != NULL)
+    (*outimage1) = MatToQImage(mat2).copy();
+  mat3.convertTo(mat3, CV_8UC1, 255);
+  if (outimage2 != NULL)
+    (*outimage2) = MatToQImage(mat3).copy();
+}
+
+void imageMake::makeUSM(QImage inimage, QImage *outimage, float w,
+                        uint32_t Threshold) {
+  if (inimage.isNull())
+    return;
+  /* 判断是否为灰度图，若不是是灰度图则转化 */
+  QImage grayimage;
+  if (!inimage.allGray()) {
+    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  } else {
+    grayimage = inimage.copy();
+  }
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0, mat1, mat2, mat3;
+  mat0 = QImageToMat(grayimage);
+  /* 先执行高斯模糊 */
+  GaussianBlur(mat0, mat1, Size(0, 0), 25);
+  mat3 = Mat::zeros(mat0.rows, mat0.cols, mat0.type());
+  for (int i = 0; i < mat0.rows; i++) {
+    for (int j = 0; j < mat0.cols; j++) {
+      quint32 diff = abs(mat0.at<uchar>(i, j) - mat1.at<uchar>(i, j));
+      /* 小于阈值说明非边缘，不需要锐化 */
+      if (diff < Threshold)
+        mat3.at<uchar>(i, j) = 1;
+      else
+        mat3.at<uchar>(i, j) = 0;
+    }
+  }
+  /*
+CV_EXPORTS_W void addWeighted(
+InputArray src1,
+double alpha,
+InputArray src2,
+double beta,
+double gamma,
+OutputArray dst,
+int dtype = -1);
+
+    out = alpha*in0 + beta*in1
+    */
+  addWeighted(mat0, 1 + w, mat1, -w, 0, mat2);
+  /* 将src中DiffMask对应的非0部分复制到dst中 */
+  mat0.copyTo(mat2, mat3);
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat2).copy();
+}
+
+void imageMake::makeLaplacianSharpen(QImage inimage, QImage *outimage) {
+  if (inimage.isNull())
+    return;
+  /* 判断是否为灰度图，若不是是灰度图则转化 */
+  QImage grayimage;
+  if (!inimage.allGray()) {
+    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  } else {
+    grayimage = inimage.copy();
+  }
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0, mat1;
+  mat0 = QImageToMat(grayimage);
+  /* 创建并初始化滤波模板 */
+  cv::Mat kernel(3, 3, CV_32F, cv::Scalar(0));
+  kernel.at<float>(1, 1) = 5.0;
+  kernel.at<float>(0, 1) = -1.0;
+  kernel.at<float>(1, 0) = -1.0;
+  kernel.at<float>(1, 2) = -1.0;
+  kernel.at<float>(2, 1) = -1.0;
+
+  mat1.create(mat0.size(), mat0.type());
+
+  /* 对图像滤波 */
+  cv::filter2D(mat0, mat1, mat1.depth(), kernel);
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat1).copy();
+}
+
 cv::Mat imageMake::QImageToMat(QImage image) {
   cv::Mat mat;
   switch (image.format()) {
@@ -583,4 +748,43 @@ QImage imageMake::MatToQImage(const cv::Mat &mat) {
     qDebug() << "ERROR: Mat could not be converted to QImage.";
     return QImage();
   }
+}
+
+/*****************频率域滤波*******************/
+/* 特别注意 opencv 的mat矩阵传参应该有指针传参，需要做好参数保护 */
+cv::Mat imageMake::openCvFreqFilt(cv::Mat scr, cv::Mat blur) {
+  /* 创建通道，存储dft后的实部与虚部（CV_32F，必须为单通道数） */
+  Mat plane[] = {scr, Mat::zeros(scr.size(), CV_32FC1)};
+  Mat complexIm;
+
+  /* 使用每个像素乘以(-1)^(x+y)来完成中心化 */
+  for (int i = 0; i < plane[0].rows; i++) {
+    float *ptr = plane[0].ptr<float>(i);
+    for (int j = 0; j < plane[0].cols; j++)
+      ptr[j] *= pow(-1, i + j);
+  }
+  /* 合并通道 （把两个矩阵合并为一个2通道的Mat类容器） */
+  merge(plane, 2, complexIm);
+  /* 进行傅立叶变换，结果保存在自身 */
+  dft(complexIm, complexIm);
+
+  split(complexIm, plane);
+  /*****************滤波器函数与DFT结果的乘积****************/
+  Mat blur_r, blur_i, BLUR;
+  /* 滤波（实部与滤波器模板对应元素相乘） */
+  multiply(plane[0], blur, blur_r);
+  /* 滤波（虚部与滤波器模板对应元素相乘） */
+  multiply(plane[1], blur, blur_i);
+  Mat plane1[] = {blur_r, blur_i};
+  /* 实部与虚部合并 */
+  merge(plane1, 2, BLUR);
+
+  idft(BLUR, BLUR);
+  /* 分离通道，主要获取通道0 */
+  split(BLUR, plane);
+  /* 求幅值(模) */
+  magnitude(plane[0], plane[1], plane[0]);
+  /* 归一化便于显示 */
+  normalize(plane[0], plane[0], 1, 0, CV_MINMAX);
+  return plane[0];
 }
