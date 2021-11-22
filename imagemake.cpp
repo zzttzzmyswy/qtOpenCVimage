@@ -21,8 +21,8 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
   if (outimage != NULL)
     (*outimage) = grayimage.copy();
 
-  int nWidth = inimage.width();
-  int nHeight = inimage.height();
+  int nWidth = grayimage.width();
+  int nHeight = grayimage.height();
   QVector<double> vecX;
   QVector<double> vecY(256, 0); // init Y data with 0;
 
@@ -34,7 +34,7 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
 
   for (int j = 0; j < nHeight; j++) {
     for (int k = 0; k < nWidth; k++) {
-      quint8 nIndex = quint8(grayimage.bits()[j * nHeight + k]);
+      quint8 nIndex = quint8(grayimage.pixel(k, j));
       vecY[nIndex] = vecY.at(nIndex) + 1;
     }
   }
@@ -46,8 +46,8 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
   }
 
   //建表
-  pchart->xAxis->setLabel(tr("Grayscale"));
-  pchart->yAxis->setLabel(tr("Number"));
+  pchart->xAxis->setLabel(tr("灰度"));
+  pchart->yAxis->setLabel(tr("出现次数"));
   pchart->xAxis->setRange(0, 255);
   pchart->yAxis->setRange(0, yMax);
   pchart->graph(0)->setData(vecX, vecY);
@@ -499,6 +499,71 @@ CV_EXPORTS_W void medianBlur( InputArray src, OutputArray dst, int ksize );
     (*outimage) = MatToQImage(mat1).copy();
 }
 
+void imageMake::makeAdaptiveMedianFilter(QImage inimage, QImage *outimage) {
+  if (inimage.isNull())
+    return;
+  /* 判断是否为灰度图，若不是是灰度图则转化 */
+  QImage grayimage;
+  if (!inimage.allGray()) {
+    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  } else {
+    grayimage = inimage.copy();
+  }
+  if (grayimage.isNull())
+    return;
+  /* 创建 grad_x 和 grad_y 矩阵 */
+  cv::Mat mat0, mat1, mat2;
+  mat0 = QImageToMat(grayimage);
+
+  int minSize = 3; // 滤波器窗口的起始尺寸
+  int maxSize = 7; // 滤波器窗口的最大尺寸
+
+  // 扩展图像的边界
+  cv::copyMakeBorder(mat0, mat1, maxSize / 2, maxSize / 2, maxSize / 2,
+                     maxSize / 2, cv::BorderTypes::BORDER_REFLECT);
+  // 图像循环
+  for (int j = maxSize / 2; j < mat1.rows - maxSize / 2; j++) {
+    for (int i = maxSize / 2; i < mat1.cols * mat1.channels() - maxSize / 2;
+         i++) {
+      mat1.at<uchar>(j, i) = adaptiveProcess(mat1, j, i, minSize, maxSize);
+    }
+  }
+  cv::Rect r =
+      cv::Rect(cv::Point(maxSize / 2, maxSize / 2),
+               cv::Point(mat1.cols - maxSize / 2, mat1.rows - maxSize / 2));
+  mat2 = mat1(r);
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat2).copy();
+}
+
+uchar imageMake::adaptiveProcess(const Mat &im, int row, int col,
+                                 int kernelSize, int maxSize) {
+  std::vector<uchar> pixels;
+  for (int a = -kernelSize / 2; a <= kernelSize / 2; a++)
+    for (int b = -kernelSize / 2; b <= kernelSize / 2; b++) {
+      pixels.push_back(im.at<uchar>(row + a, col + b));
+    }
+  sort(pixels.begin(), pixels.end());
+  auto min = pixels[0];
+  auto max = pixels[kernelSize * kernelSize - 1];
+  auto med = pixels[kernelSize * kernelSize / 2];
+  auto zxy = im.at<uchar>(row, col);
+  if (med > min && med < max) {
+    // to B
+    if (zxy > min && zxy < max)
+      return zxy;
+    else
+      return med;
+  } else {
+    kernelSize += 2;
+    if (kernelSize <= maxSize)
+      return adaptiveProcess(im, row, col, kernelSize,
+                             maxSize); // 增大窗口尺寸，继续A过程。
+    else
+      return med;
+  }
+}
+
 void imageMake::makeBilateralFilter(QImage inimage, QImage *outimage, quint32 k,
                                     quint32 sigmaColor, quint32 sigmaSpace) {
   if (inimage.isNull())
@@ -593,6 +658,9 @@ void imageMake::makeFrequencyDfilter(QImage inimage, QImage *outimage1,
 
   mat2 = openCvFreqFilt(mat1.clone(), gaussianBlur);
   mat3 = openCvFreqFilt(mat1.clone(), gaussianSharpen);
+
+  cv::Rect r = cv::Rect(cv::Point(0, 0), cv::Point(mat0.cols, mat0.rows));
+
   /*
    * 矩阵类型转换
     void convertTo(
@@ -605,10 +673,10 @@ void imageMake::makeFrequencyDfilter(QImage inimage, QImage *outimage1,
    */
   mat2.convertTo(mat2, CV_8UC1, 255);
   if (outimage1 != NULL)
-    (*outimage1) = MatToQImage(mat2).copy();
+    (*outimage1) = MatToQImage(mat2(r)).copy();
   mat3.convertTo(mat3, CV_8UC1, 255);
   if (outimage2 != NULL)
-    (*outimage2) = MatToQImage(mat3).copy();
+    (*outimage2) = MatToQImage(mat3(r)).copy();
 }
 
 void imageMake::makeUSM(QImage inimage, QImage *outimage, float w,
@@ -688,6 +756,71 @@ void imageMake::makeLaplacianSharpen(QImage inimage, QImage *outimage) {
   cv::filter2D(mat0, mat1, mat1.depth(), kernel);
   if (outimage != NULL)
     (*outimage) = MatToQImage(mat1).copy();
+}
+
+void imageMake::makeHomomorphicFilter(QImage inimage, QImage *outimage,
+                                      double D0, double gammaH, double gammaL,
+                                      double c) {
+  if (inimage.isNull())
+    return;
+  /* 判断是否为灰度图，若不是是灰度图则转化 */
+  QImage grayimage;
+  if (!inimage.allGray()) {
+    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  } else {
+    grayimage = inimage.copy();
+  }
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0, mat1, mat2;
+  /* 获取进行dtf的最优尺寸 */
+  int mat0W = getOptimalDFTSize(mat0.cols);
+  int mat0H = getOptimalDFTSize(mat0.rows);
+  /* void cv::copyMakeBorder(
+        cv::InputArray src,
+        cv::OutputArray dst,
+        int top,
+        int bottom,
+        int left,
+        int right,
+        int borderType,
+        const cv::Scalar &value = cv::Scalar()) */
+  /* 边界增加 */
+  copyMakeBorder(mat0, mat1, 0, mat0H - mat0.rows, 0, mat0W - mat0.cols,
+                 BORDER_CONSTANT, Scalar::all(0));
+  /* 将图像转换为flaot型 */
+  mat1.convertTo(mat1, CV_32FC1);
+
+  Mat butterworth_complex(mat1.size().height, mat1.size().width, CV_32FC1);
+  Point centre = Point(mat1.size().height / 2, mat1.size().width / 2);
+  double radius;
+  float upper = (gammaH * 0.1);
+  float lower = (gammaL * 0.1);
+  long dpow = D0 * D0;
+  float W = (upper - lower);
+
+  for (int i = 0; i < mat1.size().height; i++) {
+    for (int j = 0; j < mat1.size().width; j++) {
+      radius = pow((float)(i - centre.x), 2) + pow((float)(j - centre.y), 2);
+      float r = exp(-c * radius / dpow);
+      if (radius < 0)
+        butterworth_complex.at<float>(i, j) = upper;
+      else
+        butterworth_complex.at<float>(i, j) = W * (1 - r) + lower;
+    }
+  }
+
+  //  Mat butterworth_complex;
+  //  // make two channels to match complex
+  //  Mat butterworth_channels[] = {Mat_<float>(single), Mat::zeros(mat1,
+  //  CV_32F)}; merge(butterworth_channels, 2, butterworth_complex);
+
+  mat2 = openCvFreqFilt(mat1.clone(), butterworth_complex);
+  cv::Rect r = cv::Rect(cv::Point(0, 0), cv::Point(mat0.cols, mat0.rows));
+  mat2.convertTo(mat2, CV_8UC1, 255);
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat2(r)).copy();
 }
 
 cv::Mat imageMake::QImageToMat(QImage image) {

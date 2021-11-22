@@ -112,7 +112,10 @@ void Widget::on_p0Button1_5_clicked() {
                                 "在图像3，领域的高斯均值结果在图像4"));
 }
 
-void Widget::on_p0Button1_6_clicked() { imMake.makeQtsu(image0, &image2); }
+void Widget::on_p0Button1_6_clicked() {
+  imMake.makeQtsu(image0, &image2);
+  ui->infLabel->setText(QString("Otsu’s 二值化计算完毕，结果在图像3"));
+}
 
 void Widget::on_spinBox_8_valueChanged(int arg1) {
   if (arg1 % 2 == 0) {
@@ -392,4 +395,21 @@ void Widget::on_p0Button1_20_clicked() {
   imMake.makeLaplacianSharpen(image0, &image2);
   ui->infLabel->setText(QString("拉普拉斯算子图像锐化已计算完毕,"
                                 "计算结果在图像3"));
+}
+
+void Widget::on_p0Button1_21_clicked() {
+
+  if (ui->buttonGroup_2->checkedButton() == ui->radioButton_3)
+    imMake.makeAdaptiveMedianFilter(image1, &image2);
+  else
+    imMake.makeAdaptiveMedianFilter(image2, &image3);
+  ui->infLabel->setText(
+      QString("自适应中值滤波变换计算完毕，结果在图像") +
+      QString(((ui->buttonGroup_2->checkedButton() == ui->radioButton_3)
+                   ? "3"
+                   : "4")));
+}
+
+void Widget::on_p0Button1_22_clicked() {
+  imMake.makeHomomorphicFilter(image0, &image2, 80, 3, 0.25, 1);
 }

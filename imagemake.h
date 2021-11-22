@@ -43,6 +43,8 @@ public:
   void makeGaussianFilter(QImage inimage, QImage *outimage, quint32 k);
   void makeMedianFilter(QImage inimage, QImage *outimage, quint32 k);
   void makeAdaptiveMedianFilter(QImage inimage, QImage *outimage);
+  uchar adaptiveProcess(const Mat &im, int row, int col, int kernelSize,
+                        int maxSize);
   void makeBilateralFilter(QImage inimage, QImage *outimage, quint32 k,
                            quint32 sigmaColor, quint32 sigmaSpace);
   void makeFrequencyDfilter(QImage inimage, QImage *outimage1,
@@ -50,6 +52,9 @@ public:
                             quint8 type);
   void makeUSM(QImage inimage, QImage *outimage, float w, uint32_t Threshold);
   void makeLaplacianSharpen(QImage inimage, QImage *outimage);
+  void makeHomomorphicFilter(QImage inimage, QImage *outimage, double D0,
+                             double gammaH, double gammaL, double c);
+
   cv::Mat QImageToMat(QImage image);
   QImage MatToQImage(const cv::Mat &mat);
   cv::Mat openCvFreqFilt(cv::Mat scr, cv::Mat blur);
