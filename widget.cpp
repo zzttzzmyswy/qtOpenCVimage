@@ -37,6 +37,12 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->image1showLabel->setContextMenuPolicy(Qt::CustomContextMenu);
   ui->image2showLabel->setContextMenuPolicy(Qt::CustomContextMenu);
   ui->image3showLabel->setContextMenuPolicy(Qt::CustomContextMenu);
+
+  ui->image0showLabel->setAlignment(Qt::AlignCenter);
+  ui->image1showLabel->setAlignment(Qt::AlignCenter);
+  ui->image2showLabel->setAlignment(Qt::AlignCenter);
+  ui->image3showLabel->setAlignment(Qt::AlignCenter);
+
   connect(ui->image0showLabel, &QLabel::customContextMenuRequested, this,
           [=](const QPoint &pos) {
             /* 参数pos用来传递右键点击时的鼠标的坐标，这个坐标一般是相对于控件左上角而言的
