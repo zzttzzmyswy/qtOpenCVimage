@@ -133,6 +133,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event) {
       QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
       if (mouseEvent->button() == Qt::LeftButton) {
         imMake.makeHistogram(image0, &customPlot, NULL);
+        ui->infLabel->setText(QString("灰度直方图计算完毕"));
         return true;
       } else {
         return false;
@@ -146,6 +147,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event) {
       QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
       if (mouseEvent->button() == Qt::LeftButton) {
         imMake.makeHistogram(image1, &customPlot, NULL);
+        ui->infLabel->setText(QString("灰度直方图计算完毕"));
         return true;
       } else {
         return false;
@@ -159,6 +161,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event) {
       QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
       if (mouseEvent->button() == Qt::LeftButton) {
         imMake.makeHistogram(image2, &customPlot, NULL);
+        ui->infLabel->setText(QString("灰度直方图计算完毕"));
         return true;
       } else {
         return false;
@@ -172,6 +175,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event) {
       QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
       if (mouseEvent->button() == Qt::LeftButton) {
         imMake.makeHistogram(image3, &customPlot, NULL);
+        ui->infLabel->setText(QString("灰度直方图计算完毕"));
         return true;
       } else {
         return false;
@@ -570,18 +574,22 @@ void Widget::on_saveAc4_triggered() { saveImage(image3); }
 
 void Widget::on_gAc1_triggered() {
   imMake.makeHistogram(image0, &customPlot, NULL);
+  ui->infLabel->setText(QString("灰度直方图计算完毕"));
 }
 
 void Widget::on_gAc2_triggered() {
   imMake.makeHistogram(image1, &customPlot, NULL);
+  ui->infLabel->setText(QString("灰度直方图计算完毕"));
 }
 
 void Widget::on_gAc3_triggered() {
   imMake.makeHistogram(image2, &customPlot, NULL);
+  ui->infLabel->setText(QString("灰度直方图计算完毕"));
 }
 
 void Widget::on_gAc4_triggered() {
   imMake.makeHistogram(image3, &customPlot, NULL);
+  ui->infLabel->setText(QString("灰度直方图计算完毕"));
 }
 
 void Widget::on_show1_triggered() {

@@ -8,10 +8,10 @@
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
-  //设置中文字体
-  // a.setFont(QFont("Microsoft Yahei", 9));
+  /* 设置中文字体 */
+  a.setFont(QFont("Microsoft Yahei", 11));
 
-  //设置中文编码
+  /* 设置中文编码 */
 #if (QT_VERSION <= QT_VERSION_CHECK(5, 0, 0))
 #if _MSC_VER
   QTextCodec *codec = QTextCodec::codecForName("gbk");
