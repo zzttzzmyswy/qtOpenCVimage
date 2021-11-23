@@ -43,6 +43,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->image2showLabel->setAlignment(Qt::AlignCenter);
   ui->image3showLabel->setAlignment(Qt::AlignCenter);
 
+  ui->textEdit->setReadOnly(true);
+
   connect(ui->image0showLabel, &QLabel::customContextMenuRequested, this,
           [=](const QPoint &pos) {
             /* 参数pos用来传递右键点击时的鼠标的坐标，这个坐标一般是相对于控件左上角而言的

@@ -51,4 +51,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    README.MD
+    README.MD \
+    tool.png
+
+RESOURCES += \
+    image.qrc
