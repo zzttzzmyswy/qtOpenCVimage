@@ -4,6 +4,7 @@
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->setupUi(this);
   ui->showLayout->addWidget(&customPlot);
+  customPlot.setMinimumWidth(400);
   connect(&timerOfUpImage, SIGNAL(timeout()), this, SLOT(timeOfUp()));
   timerOfUpImage.start(100);
   customPlot.addGraph();
@@ -11,13 +12,61 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   customPlotTitle = new QCPTextElement(&customPlot, tr("灰度直方图"));
   customPlot.plotLayout()->addElement(0, 0, customPlotTitle);
   customPlot.graph(0)->setLineStyle(QCPGraph::lsImpulse);
-  ui->infLabel->setText(QString("启动完成"));
   ui->doubleSpinBox->setDecimals(2);
+
+  image0Menu.addAction(ui->openIm);
+  image0Menu.addAction(ui->gAc1);
+  image0Menu.addAction(ui->show1);
+  image0Menu.addAction(ui->saveAc1);
+  image1Menu.addAction(ui->gAc2);
+  image1Menu.addAction(ui->show2);
+  image1Menu.addAction(ui->saveAc2);
+  image2Menu.addAction(ui->gAc3);
+  image2Menu.addAction(ui->show3);
+  image2Menu.addAction(ui->saveAc3);
+  image3Menu.addAction(ui->gAc4);
+  image3Menu.addAction(ui->show4);
+  image3Menu.addAction(ui->saveAc4);
 
   ui->image0showLabel->installEventFilter(this);
   ui->image1showLabel->installEventFilter(this);
   ui->image2showLabel->installEventFilter(this);
   ui->image3showLabel->installEventFilter(this);
+
+  ui->image0showLabel->setContextMenuPolicy(Qt::CustomContextMenu);
+  ui->image1showLabel->setContextMenuPolicy(Qt::CustomContextMenu);
+  ui->image2showLabel->setContextMenuPolicy(Qt::CustomContextMenu);
+  ui->image3showLabel->setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(ui->image0showLabel, &QLabel::customContextMenuRequested, this,
+          [=](const QPoint &pos) {
+            /* 参数pos用来传递右键点击时的鼠标的坐标，这个坐标一般是相对于控件左上角而言的
+             */
+            Q_UNUSED(pos);
+            image0Menu.exec(QCursor::pos());
+          });
+  connect(ui->image1showLabel, &QLabel::customContextMenuRequested, this,
+          [=](const QPoint &pos) {
+            /* 参数pos用来传递右键点击时的鼠标的坐标，这个坐标一般是相对于控件左上角而言的
+             */
+            Q_UNUSED(pos);
+            image1Menu.exec(QCursor::pos());
+          });
+  connect(ui->image2showLabel, &QLabel::customContextMenuRequested, this,
+          [=](const QPoint &pos) {
+            /* 参数pos用来传递右键点击时的鼠标的坐标，这个坐标一般是相对于控件左上角而言的
+             */
+            Q_UNUSED(pos);
+            image2Menu.exec(QCursor::pos());
+          });
+  connect(ui->image3showLabel, &QLabel::customContextMenuRequested, this,
+          [=](const QPoint &pos) {
+            /* 参数pos用来传递右键点击时的鼠标的坐标，这个坐标一般是相对于控件左上角而言的
+             */
+            Q_UNUSED(pos);
+            image3Menu.exec(QCursor::pos());
+          });
+
+  ui->infLabel->setText(QString("启动完成"));
 }
 
 Widget::~Widget() {
@@ -50,10 +99,12 @@ void Widget::on_p0Button1_3_clicked() {
       QString("直方图均衡化计算完毕，结果在图像3，均值后直方图在右上角图表"));
 }
 void Widget::saveImage(QImage image) {
+  if (image.isNull())
+    return;
   cv::Mat mat0 = imMake.QImageToMat(image);
-  QString filename =
-      QFileDialog::getSaveFileName(this, tr("Save Image"), "optput.jpg",
-                                   tr("Images (*.png *.bmp *.jpg)")); //选择路径
+  QString filename = QFileDialog::getSaveFileName(
+      this, tr("Save Image"), "optput.jpg",
+      tr("Images (*.jpg);;Images (*.png);;Images (*.bmp)")); //选择路径
   if (filename.isEmpty())
     return;
   std::string fileAsSave = filename.toStdString();
@@ -67,7 +118,7 @@ bool Widget::eventFilter(QObject *obj, QEvent *event) {
     if (event->type() == QEvent::MouseButtonPress) {
       QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
       if (mouseEvent->button() == Qt::LeftButton) {
-        imMake.makeHistogram(image0, &customPlot, &image1);
+        imMake.makeHistogram(image0, &customPlot, NULL);
         return true;
       } else {
         return false;
@@ -494,3 +545,61 @@ void Widget::on_BTButton_4_clicked() {
   ui->infLabel->setText(
       QString("图像旋转计算完毕，顺时针旋转，结果在图像2,3,4"));
 }
+
+void Widget::on_saveAc1_triggered() { saveImage(image0); }
+
+void Widget::on_saveAc2_triggered() { saveImage(image1); }
+
+void Widget::on_saveAc3_triggered() { saveImage(image2); }
+
+void Widget::on_saveAc4_triggered() { saveImage(image3); }
+
+void Widget::on_gAc1_triggered() {
+  imMake.makeHistogram(image0, &customPlot, NULL);
+}
+
+void Widget::on_gAc2_triggered() {
+  imMake.makeHistogram(image1, &customPlot, NULL);
+}
+
+void Widget::on_gAc3_triggered() {
+  imMake.makeHistogram(image2, &customPlot, NULL);
+}
+
+void Widget::on_gAc4_triggered() {
+  imMake.makeHistogram(image3, &customPlot, NULL);
+}
+
+void Widget::on_show1_triggered() {
+  if (image0.isNull())
+    return;
+  cv::namedWindow("image 1", WINDOW_NORMAL);
+  cv::resizeWindow("image 1", 1600, 900);
+  cv::imshow("image 1", imMake.QImageToMat(image0));
+}
+
+void Widget::on_show2_triggered() {
+  if (image1.isNull())
+    return;
+  cv::namedWindow("image 2", WINDOW_NORMAL);
+  cv::resizeWindow("image 2", 1600, 900);
+  cv::imshow("image 2", imMake.QImageToMat(image1));
+}
+
+void Widget::on_show3_triggered() {
+  if (image2.isNull())
+    return;
+  cv::namedWindow("image 3", WINDOW_NORMAL);
+  cv::resizeWindow("image 3", 1600, 900);
+  cv::imshow("image 3", imMake.QImageToMat(image2));
+}
+
+void Widget::on_show4_triggered() {
+  if (image3.isNull())
+    return;
+  cv::namedWindow("image 4", WINDOW_NORMAL);
+  cv::resizeWindow("image 4", 1600, 900);
+  cv::imshow("image 4", imMake.QImageToMat(image3));
+}
+
+void Widget::on_openIm_triggered() { on_p0Button1_pressed(); }

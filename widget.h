@@ -1,6 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include <QCursor>
 #include <QFileDialog>
 #include <QImage>
 #include <QWidget>
@@ -33,6 +34,11 @@ public:
   imageMake imMake;
   QSize image0Szie = QSize(1920, 1080);
   QSize image0ToSzie = QSize(1920, 1080);
+
+  QMenu image0Menu;
+  QMenu image1Menu;
+  QMenu image2Menu;
+  QMenu image3Menu;
 
   void saveImage(QImage image);
   //  void updateImage0(void);
@@ -145,6 +151,32 @@ private slots:
   void on_BTButton_3_clicked();
 
   void on_BTButton_4_clicked();
+
+  void on_saveAc1_triggered();
+
+  void on_saveAc2_triggered();
+
+  void on_saveAc3_triggered();
+
+  void on_saveAc4_triggered();
+
+  void on_gAc1_triggered();
+
+  void on_gAc2_triggered();
+
+  void on_gAc3_triggered();
+
+  void on_gAc4_triggered();
+
+  void on_show1_triggered();
+
+  void on_show2_triggered();
+
+  void on_show3_triggered();
+
+  void on_show4_triggered();
+
+  void on_openIm_triggered();
 
 private:
   Ui::Widget *ui;
