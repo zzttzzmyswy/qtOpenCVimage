@@ -4,14 +4,19 @@
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->setupUi(this);
   ui->showLayout->addWidget(&customPlot);
-  customPlot.setMinimumWidth(400);
-  connect(&timerOfUpImage, SIGNAL(timeout()), this, SLOT(timeOfUp()));
+
+  setWindowIcon(QIcon("://toolsIco"));
+
   timerOfUpImage.start(100);
+  connect(&timerOfUpImage, SIGNAL(timeout()), this, SLOT(timeOfUp()));
+
+  customPlot.setMinimumWidth(400);
   customPlot.addGraph();
   customPlot.plotLayout()->insertRow(0);
   customPlotTitle = new QCPTextElement(&customPlot, tr("灰度直方图"));
   customPlot.plotLayout()->addElement(0, 0, customPlotTitle);
   customPlot.graph(0)->setLineStyle(QCPGraph::lsImpulse);
+
   ui->doubleSpinBox->setDecimals(2);
 
   image0Menu.addAction(ui->openIm);
@@ -112,7 +117,8 @@ void Widget::saveImage(QImage image) {
   cv::Mat mat0 = imMake.QImageToMat(image);
   QString filename = QFileDialog::getSaveFileName(
       this, tr("Save Image"), "optput.jpg",
-      tr("Images (*.jpg);;Images (*.png);;Images (*.bmp)")); //选择路径
+      tr("jpg Images (*.jpg);;png Images (*.png);;bmp Images "
+         "(*.bmp)")); //选择路径
   if (filename.isEmpty())
     return;
   std::string fileAsSave = filename.toStdString();

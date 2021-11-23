@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>tool.png</file>
+        <file alias="toolPng">tool.png</file>
+        <file alias="toolsIco">tools.ico</file>
+        <file alias="toolsPng">tools.png</file>
     </qresource>
 </RCC>

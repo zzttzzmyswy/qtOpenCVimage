@@ -52,7 +52,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     README.MD \
-    tool.png
+    tool.png \
+    tools.ico \
+    tools.png
 
 RESOURCES += \
     image.qrc
