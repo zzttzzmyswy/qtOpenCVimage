@@ -92,7 +92,9 @@ void Widget::on_p0Button1_pressed() {
       0, "Open", "/home", tr("Images(*.png *jpg *bmp)"));
   if (strImageFile.isEmpty())
     return;
-  image0 = QImage(strImageFile);
+  QImageReader reader(strImageFile);
+  reader.setAutoTransform(true);
+  image0 = reader.read();
   ui->infLabel->setText(QString("打开文件:" + strImageFile));
   image0Szie = image0.size();
   ui->label_20->setText(QString("文件信息: %1 X %2 ")
