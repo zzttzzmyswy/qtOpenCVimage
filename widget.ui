@@ -171,7 +171,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>7</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -2811,6 +2811,22 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>347</x>
      <y>497</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BTSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>712</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>308</x>
+     <y>579</y>
     </hint>
    </hints>
   </connection>
