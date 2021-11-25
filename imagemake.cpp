@@ -826,6 +826,28 @@ void imageMake::makeUniformNoise(QImage inimage, QImage *outimage, quint64 a1,
     (*outimage) = MatToQImage(mat2).copy();
 }
 
+void imageMake::makeGaussianNoise(QImage inimage, QImage *outimage,
+                                  quint64 mean, quint64 sd) {
+  if (inimage.isNull())
+    return;
+
+  QImage grayimage;
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0, mat1, mat2;
+  mat0 = QImageToMat(grayimage);
+  mat1 = Mat::zeros(mat0.rows, mat0.cols, mat0.type());
+  /* 创建一个RNG类 */
+  RNG rng;
+  rng.fill(mat1, RNG::NORMAL, mean, sd);
+  mat2 = mat0 + mat1;
+  mat2.convertTo(mat2, CV_8U);
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat2).copy();
+}
+
 cv::Mat imageMake::QImageToMat(QImage image) {
   cv::Mat mat;
   switch (image.format()) {

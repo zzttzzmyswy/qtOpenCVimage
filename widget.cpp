@@ -639,3 +639,9 @@ void Widget::on_p0Button1_24_clicked() {
                           ui->spinBox_25->value());
   ui->infLabel->setText(QString("均匀噪声计算完毕"));
 }
+
+void Widget::on_p0Button1_25_clicked() {
+  imMake.makeGaussianNoise(image0, &image2, ui->spinBox_26->value(),
+                           ui->spinBox_27->value());
+  ui->infLabel->setText(QString("高斯噪声计算完毕"));
+}

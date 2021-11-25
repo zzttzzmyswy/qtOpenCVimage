@@ -61,6 +61,8 @@ public:
                                   quint64 snr);
   void makeUniformNoise(QImage inimage, QImage *outimage, quint64 a1,
                         quint64 a2);
+  void makeGaussianNoise(QImage inimage, QImage *outimage, quint64 mean,
+                         quint64 sd);
 
   cv::Mat QImageToMat(QImage image);
   QImage MatToQImage(const cv::Mat &mat);

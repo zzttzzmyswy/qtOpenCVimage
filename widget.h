@@ -182,6 +182,8 @@ private slots:
 
   void on_p0Button1_24_clicked();
 
+  void on_p0Button1_25_clicked();
+
 private:
   Ui::Widget *ui;
 };
