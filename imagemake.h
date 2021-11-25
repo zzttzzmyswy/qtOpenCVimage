@@ -63,7 +63,7 @@ public:
                         quint64 a2);
   void makeGaussianNoise(QImage inimage, QImage *outimage, quint64 mean,
                          quint64 sd);
-
+  void makeSaltPepperNoise(QImage inimage, QImage *outimage, quint64 t);
   cv::Mat QImageToMat(QImage image);
   QImage MatToQImage(const cv::Mat &mat);
   cv::Mat openCvFreqFilt(cv::Mat scr, cv::Mat blur);

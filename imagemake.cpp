@@ -848,6 +848,37 @@ void imageMake::makeGaussianNoise(QImage inimage, QImage *outimage,
     (*outimage) = MatToQImage(mat2).copy();
 }
 
+void imageMake::makeSaltPepperNoise(QImage inimage, QImage *outimage,
+                                    quint64 t) {
+  if (inimage.isNull())
+    return;
+
+  QImage grayimage;
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0;
+  mat0 = QImageToMat(grayimage);
+  quint64 sizexy = grayimage.width() * grayimage.height() * (double(t) / 100.0);
+  for (quint64 k = 0; k < sizexy; ++k) {
+    quint64 i, j;
+    /* 取余数运算，保证在图像的列数内 */
+    i = rand() % mat0.cols;
+    j = rand() % mat0.rows;
+    /* 判定为白色噪声还是黑色噪声的变量 */
+    quint64 write_black = rand() % 2;
+    /* 添加白色噪声 */
+    if (write_black == 0)
+      mat0.at<uchar>(j, i) = 255;
+    /* 添加黑噪声 */
+    else
+      mat0.at<uchar>(j, i) = 0;
+  }
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat0).copy();
+}
+
 cv::Mat imageMake::QImageToMat(QImage image) {
   cv::Mat mat;
   switch (image.format()) {

@@ -645,3 +645,8 @@ void Widget::on_p0Button1_25_clicked() {
                            ui->spinBox_27->value());
   ui->infLabel->setText(QString("高斯噪声计算完毕"));
 }
+
+void Widget::on_p0Button1_26_clicked() {
+  imMake.makeSaltPepperNoise(image0, &image2, ui->spinBox_28->value());
+  ui->infLabel->setText(QString("椒盐噪声计算完毕"));
+}
