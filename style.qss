@@ -147,7 +147,7 @@ QLineEdit:focus, QFrame:focus {
 QLabel {
     border: none;
     padding: 0;
-    background: none;
+    background: #FFFFE0;
 }
 
 /*  QLabel 上的 QToolTip提示  */
