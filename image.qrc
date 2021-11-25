@@ -1,7 +1,10 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/windows">
         <file alias="toolPng">tool.png</file>
         <file alias="toolsIco">tools.ico</file>
         <file alias="toolsPng">tools.png</file>
+    </qresource>
+    <qresource prefix="/exp">
+        <file>len_std.bmp</file>
     </qresource>
 </RCC>

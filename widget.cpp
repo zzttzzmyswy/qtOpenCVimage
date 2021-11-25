@@ -5,7 +5,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
   ui->setupUi(this);
   ui->showLayout->addWidget(&customPlot);
 
-  setWindowIcon(QIcon("://toolsIco"));
+  setWindowIcon(QIcon(":/windows/toolsIco"));
 
   timerOfUpImage.start(100);
   connect(&timerOfUpImage, SIGNAL(timeout()), this, SLOT(timeOfUp()));
@@ -649,4 +649,16 @@ void Widget::on_p0Button1_25_clicked() {
 void Widget::on_p0Button1_26_clicked() {
   imMake.makeSaltPepperNoise(image0, &image2, ui->spinBox_28->value());
   ui->infLabel->setText(QString("椒盐噪声计算完毕"));
+}
+
+void Widget::on_p0Button1_27_clicked() {
+  QString strImageFile = QString(":/exp/len_std.bmp");
+  QImageReader reader(strImageFile);
+  reader.setAutoTransform(true);
+  image0 = reader.read();
+  ui->infLabel->setText(QString("打开文件:" + strImageFile));
+  image0Szie = image0.size();
+  ui->label_20->setText(QString("文件信息: %1 X %2 ")
+                            .arg(image0Szie.width())
+                            .arg(image0Szie.height()));
 }
