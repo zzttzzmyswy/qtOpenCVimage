@@ -44,7 +44,7 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
   pchart->xAxis->setLabel(tr("灰度"));
   pchart->yAxis->setLabel(tr("出现次数"));
   pchart->xAxis->setRange(-1, 256);
-  pchart->yAxis->setRange(0, yMax);
+  pchart->yAxis->setRange(-1, yMax + 1);
   pchart->graph(0)->setData(vecX, vecY);
   pchart->replot();
 }

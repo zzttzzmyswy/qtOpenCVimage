@@ -171,7 +171,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>9</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -307,7 +307,7 @@
         <rect>
          <x>250</x>
          <y>30</y>
-         <width>801</width>
+         <width>931</width>
          <height>31</height>
         </rect>
        </property>
@@ -2821,7 +2821,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;图像处理工具包&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;作者：zzttzz&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;框架：Qt，OpenCV&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;框架：Qt5，OpenCV4&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;开发语言：C++&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;开源地址：https://github.com/zzttzzmyswy/qtOpenCVimage&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -2847,7 +2847,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLabel" name="label_28">
        <property name="text">
-        <string>ZZTTZZ</string>
+        <string>ZZTTZZ-Qt图像处理工具包</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
