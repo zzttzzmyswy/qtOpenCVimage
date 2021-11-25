@@ -89,7 +89,7 @@ Widget::~Widget() {
 
 void Widget::on_p0Button1_pressed() {
   QString strImageFile = QFileDialog::getOpenFileName(
-      0, "Open", "/home", tr("Images(*.png *jpg *bmp)"));
+      0, "Open", "/home", tr("Images(*.png *jpg *jpeg *bmp)"));
   if (strImageFile.isEmpty())
     return;
   QImageReader reader(strImageFile);
@@ -627,3 +627,15 @@ void Widget::on_show4_triggered() {
 }
 
 void Widget::on_openIm_triggered() { on_p0Button1_pressed(); }
+
+void Widget::on_p0Button1_23_clicked() {
+  imMake.makeOutOfFocusDeblurFilter(image0, &image2, ui->spinBox_21->value(),
+                                    ui->spinBox_23->value());
+  ui->infLabel->setText(QString("离焦去模糊过滤器（维纳滤波器）计算完毕"));
+}
+
+void Widget::on_p0Button1_24_clicked() {
+  imMake.makeUniformNoise(image0, &image2, ui->spinBox_24->value(),
+                          ui->spinBox_25->value());
+  ui->infLabel->setText(QString("均匀噪声计算完毕"));
+}

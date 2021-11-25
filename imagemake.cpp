@@ -6,15 +6,10 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
                               QImage *outimage) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-    if (outimage != NULL)
-      (*outimage) = grayimage.copy();
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  if (outimage != NULL)
+    (*outimage) = grayimage.copy();
   if (grayimage.isNull())
     return;
 
@@ -48,7 +43,7 @@ void imageMake::makeHistogram(QImage inimage, QCustomPlot *pchart,
   /* 建表 */
   pchart->xAxis->setLabel(tr("灰度"));
   pchart->yAxis->setLabel(tr("出现次数"));
-  pchart->xAxis->setRange(0, 255);
+  pchart->xAxis->setRange(-1, 256);
   pchart->yAxis->setRange(0, yMax);
   pchart->graph(0)->setData(vecX, vecY);
   pchart->replot();
@@ -58,15 +53,11 @@ void imageMake::makeHistogramAveraging(QImage inimage, QCustomPlot *pchart,
                                        QImage *outimage) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-    if (outimage != NULL)
-      (*outimage) = grayimage.copy();
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+
+  if (outimage != NULL)
+    (*outimage) = grayimage.copy();
   if (grayimage.isNull())
     return;
 
@@ -87,13 +78,9 @@ void imageMake::makeBinarization(QImage inimage, QImage *outimage,
                                  quint8 threshold) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 获取二值化后的信息 */
@@ -127,13 +114,9 @@ void imageMake::makeAdaptiveThreshold(QImage inimage, QImage *outimage1,
                                       quint8 numC) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
 
@@ -152,13 +135,9 @@ void imageMake::makeAdaptiveThreshold(QImage inimage, QImage *outimage1,
 void imageMake::makeQtsu(QImage inimage, QImage *outimage) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   cv::Mat mat0, mat1;
@@ -171,13 +150,9 @@ void imageMake::makeQtsu(QImage inimage, QImage *outimage) {
 void imageMake::makeSobel(QImage inimage, QImage *outimage, quint8 k) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -218,13 +193,9 @@ CV_EXPORTS_W void Sobel( InputArray src, OutputArray dst, int ddepth,
 void imageMake::makeScharr(QImage inimage, QImage *outimage) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -265,13 +236,9 @@ CV_EXPORTS_W void Scharr( InputArray src, OutputArray dst, int ddepth,
 void imageMake::makeLaplace(QImage inimage, QImage *outimage, quint8 k) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -300,13 +267,9 @@ CV_EXPORTS_W void Laplacian( InputArray src, OutputArray dst, int ddepth,
 void imageMake::makeCanny(QImage inimage, QImage *outimage, quint8 threshold) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -337,13 +300,9 @@ void imageMake::makeHoughLines(QImage inimage, QImage *outimage,
                                quint32 threshold) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -389,13 +348,9 @@ void imageMake::makeHoughLinesP(QImage inimage, QImage *outimage,
                                 quint32 threshold) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -433,13 +388,9 @@ color, int thickness = 1, int lineType = LINE_8, int shift = 0);
 void imageMake::makeMeanFilter(QImage inimage, QImage *outimage, quint32 k) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -454,13 +405,9 @@ void imageMake::makeGaussianFilter(QImage inimage, QImage *outimage,
                                    quint32 k) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -474,13 +421,9 @@ void imageMake::makeGaussianFilter(QImage inimage, QImage *outimage,
 void imageMake::makeMedianFilter(QImage inimage, QImage *outimage, quint32 k) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -497,13 +440,9 @@ CV_EXPORTS_W void medianBlur( InputArray src, OutputArray dst, int ksize );
 void imageMake::makeAdaptiveMedianFilter(QImage inimage, QImage *outimage) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -563,13 +502,9 @@ void imageMake::makeBilateralFilter(QImage inimage, QImage *outimage, quint32 k,
                                     quint32 sigmaColor, quint32 sigmaSpace) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建 grad_x 和 grad_y 矩阵 */
@@ -591,13 +526,9 @@ void imageMake::makeFrequencyDfilter(QImage inimage, QImage *outimage1,
                                      quint8 type) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建计算矩阵 */
@@ -679,13 +610,9 @@ void imageMake::makeUSM(QImage inimage, QImage *outimage, float w,
                         uint32_t Threshold) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建计算矩阵 */
@@ -726,13 +653,9 @@ int dtype = -1);
 void imageMake::makeLaplacianSharpen(QImage inimage, QImage *outimage) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建计算矩阵 */
@@ -759,13 +682,9 @@ void imageMake::makeHomomorphicFilter(QImage inimage, QImage *outimage,
                                       double c) {
   if (inimage.isNull())
     return;
-  /* 判断是否为灰度图，若不是是灰度图则转化 */
+
   QImage grayimage;
-  if (!inimage.allGray()) {
-    grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
-  } else {
-    grayimage = inimage.copy();
-  }
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
   if (grayimage.isNull())
     return;
   /* 创建计算矩阵 */
@@ -833,6 +752,78 @@ void imageMake::makeRotate(QImage inimage, QImage *outimage1, QImage *outimage2,
   flip(mat0, mat0, 1);
   if (outimage3 != NULL)
     (*outimage3) = MatToQImage(mat0).copy();
+}
+
+void imageMake::makeOutOfFocusDeblurFilter(QImage inimage, QImage *outimage,
+                                           quint64 r, quint64 snr) {
+  if (inimage.isNull())
+    return;
+
+  QImage grayimage;
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0, mat1, mat2, mat3;
+  cv::Rect roi;
+  mat0 = QImageToMat(grayimage);
+  /* 截取处理区域，对宽高取偶数 */
+  roi = Rect(0, 0, mat0.cols & -2, mat0.rows & -2);
+  { /* 创建椭圆形点扩散函数PSF
+        对于散焦图像去模糊时使用点扩散函数，如果针对运动图像去模糊可以使用带有角度和长度的点扩散函数，角度即是物体运动方向、长度取决于运动速度
+     */
+    Mat h(roi.size(), CV_32F, Scalar(0));
+    Point point(roi.width / 2, roi.height / 2);
+    circle(h, point, r, 255, -1, 8);
+    Scalar summa = sum(h);
+    mat1 = h / summa[0];
+  }
+  { /* 创建维纳滤波器 */
+    Mat h_PSF_shifted;
+    fftshift(mat1, h_PSF_shifted);
+    Mat planes[2] = {Mat_<float>(h_PSF_shifted.clone()),
+                     Mat::zeros(h_PSF_shifted.size(), CV_32F)};
+    Mat complexI;
+    merge(planes, 2, complexI);
+    dft(complexI, complexI);
+    split(complexI, planes);
+    Mat denom;
+    pow(abs(planes[0]), 2, denom);
+    denom += 1.0 / double(snr);
+    divide(planes[0], denom, mat2);
+  }
+
+  // mat0.convertTo(mat0, CV_32F);
+
+  // edgetaper(mat2, mat2, 1.1, 0.04);
+  filter2DFreq(mat0(roi), mat3, mat2);
+  mat3.convertTo(mat3, CV_8U);
+
+  normalize(mat3, mat3, 0, 255, NORM_MINMAX);
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat3).copy();
+}
+
+void imageMake::makeUniformNoise(QImage inimage, QImage *outimage, quint64 a1,
+                                 quint64 a2) {
+  if (inimage.isNull())
+    return;
+
+  QImage grayimage;
+  grayimage = inimage.convertToFormat(QImage::Format_Grayscale8);
+  if (grayimage.isNull())
+    return;
+  /* 创建计算矩阵 */
+  cv::Mat mat0, mat1, mat2;
+  mat0 = QImageToMat(grayimage);
+  mat1 = Mat::zeros(mat0.rows, mat0.cols, mat0.type());
+  /* 创建一个RNG类 */
+  RNG rng;
+  rng.fill(mat1, RNG::UNIFORM, a1, a2);
+  mat2 = mat0 + mat1;
+  mat2.convertTo(mat2, CV_8U);
+  if (outimage != NULL)
+    (*outimage) = MatToQImage(mat2).copy();
 }
 
 cv::Mat imageMake::QImageToMat(QImage image) {
@@ -935,4 +926,66 @@ cv::Mat imageMake::openCvFreqFilt(cv::Mat scr, cv::Mat blur) {
   /* 归一化便于显示 */
   normalize(plane[0], plane[0], 1, 0, CV_MINMAX);
   return plane[0];
+}
+
+//重新排列傅立叶图像的象限，使原点位于图像中心
+void imageMake::fftshift(const Mat &inputImg, Mat &outputImg) {
+  outputImg = inputImg.clone();
+  int cx = outputImg.cols / 2;
+  int cy = outputImg.rows / 2;
+  Mat q0(outputImg, Rect(0, 0, cx, cy));
+  Mat q1(outputImg, Rect(cx, 0, cx, cy));
+  Mat q2(outputImg, Rect(0, cy, cx, cy));
+  Mat q3(outputImg, Rect(cx, cy, cx, cy));
+  Mat tmp;
+  q0.copyTo(tmp);
+  q3.copyTo(q0);
+  tmp.copyTo(q3);
+  q1.copyTo(tmp);
+  q2.copyTo(q1);
+  tmp.copyTo(q2);
+}
+
+//使恢复滤波器的边缘逐渐变细，以减少还原图像中的振铃效果
+void imageMake::edgetaper(const Mat &inputImg, Mat &outputImg, double gamma,
+                          double beta) {
+  int Nx = inputImg.cols;
+  int Ny = inputImg.rows;
+  Mat w1(1, Nx, CV_32F, Scalar(0));
+  Mat w2(Ny, 1, CV_32F, Scalar(0));
+  float *p1 = w1.ptr<float>(0);
+  float *p2 = w2.ptr<float>(0);
+  float dx = float(2.0 * CV_PI / Nx);
+  float x = float(-CV_PI);
+  for (int i = 0; i < Nx; i++) {
+    p1[i] = float(
+        0.5 * (tanh((x + gamma / 2) / beta) - tanh((x - gamma / 2) / beta)));
+    x += dx;
+  }
+  float dy = float(2.0 * CV_PI / Ny);
+  float y = float(-CV_PI);
+  for (int i = 0; i < Ny; i++) {
+    p2[i] = float(
+        0.5 * (tanh((y + gamma / 2) / beta) - tanh((y - gamma / 2) / beta)));
+    y += dy;
+  }
+  Mat w = w2 * w1;
+  multiply(inputImg, w, outputImg);
+}
+
+void imageMake::filter2DFreq(const Mat &inputImg, Mat &outputImg,
+                             const Mat &H) {
+  Mat planes[2] = {Mat_<float>(inputImg.clone()),
+                   Mat::zeros(inputImg.size(), CV_32F)};
+  Mat complexI;
+  merge(planes, 2, complexI);
+  dft(complexI, complexI, DFT_SCALE);
+  Mat planesH[2] = {Mat_<float>(H.clone()), Mat::zeros(H.size(), CV_32F)};
+  Mat complexH;
+  merge(planesH, 2, complexH);
+  Mat complexIH;
+  mulSpectrums(complexI, complexH, complexIH, 0);
+  idft(complexIH, complexIH);
+  split(complexIH, planes);
+  outputImg = planes[0];
 }

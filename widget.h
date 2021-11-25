@@ -178,6 +178,10 @@ private slots:
 
   void on_openIm_triggered();
 
+  void on_p0Button1_23_clicked();
+
+  void on_p0Button1_24_clicked();
+
 private:
   Ui::Widget *ui;
 };

@@ -57,8 +57,17 @@ public:
   void makeRotate(QImage inimage, QImage *outimage1, QImage *outimage2,
                   QImage *outimage3);
 
+  void makeOutOfFocusDeblurFilter(QImage inimage, QImage *outimage, quint64 r,
+                                  quint64 snr);
+  void makeUniformNoise(QImage inimage, QImage *outimage, quint64 a1,
+                        quint64 a2);
+
   cv::Mat QImageToMat(QImage image);
   QImage MatToQImage(const cv::Mat &mat);
   cv::Mat openCvFreqFilt(cv::Mat scr, cv::Mat blur);
+  void fftshift(const Mat &inputImg, Mat &outputImg);
+  void edgetaper(const Mat &inputImg, Mat &outputImg, double gamma = 5.0,
+                 double beta = 0.2);
+  void filter2DFreq(const Mat &inputImg, Mat &outputImg, const Mat &H);
 };
 #endif // IMAGEMAKE_H
