@@ -1,0 +1,169 @@
+/* 控件的背景 */
+.QWidget {
+   background-color: beige;
+}
+
+QToolBar {
+    background-color: beige;
+}
+
+QDialog, QFileDialog {
+    background-color: beige;
+}
+
+QTabWidget::pane { /* 选项卡小部件框架 */
+    border-top: 2px solid #C2C7CB;
+}
+
+QTabWidget::tab-bar {
+    left: 5px; /* 向右移动 5px */
+}
+
+QTabBar, QTabWidget {
+    background-color: beige;
+}
+QTabBar::tab {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 1px solid darkkhaki;
+     border-bottom-color: #C2C7CB; /*与窗格颜色相同 */
+     border-top-left-radius: 4px;
+     border-top-right-radius: 4px;
+     min-width: 8ex;
+     padding: 2px;
+ }
+QTabBar::tab:selected, QTabBar::tab:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QTabBar::tab:selected {
+    border-color: #9B9B9B;
+    border-bottom-color: #C2C7CB; /* 与窗格颜色相同 */
+}
+
+QTabBar::tab:!selected {
+    margin-top: 2px; /* 使未选定的选项卡看起来更小 */
+}
+
+/* 不错的Windows XP风格的密码字符. */
+QLineEdit[echoMode="2"] {
+    lineedit-password-character: 9679;
+}
+
+QHeaderView::section {
+     background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                       stop:0 #616161, stop: 0.5 #505050,
+                                       stop: 0.6 #434343, stop:1 #656565);
+     color: white;
+     padding-left: 4px;
+     border: 1px solid #6c6c6c;
+ }
+
+ QHeaderView::section:checked
+ {
+     background-color: red;
+ }
+
+
+/* 我们为按钮提供最小宽度和最小高度
+使它们看起来优雅，不受文本宽度的影响。 */
+QPushButton {
+    background-color: palegoldenrod;
+    border-width: 2px;
+    border-color: darkkhaki;
+    border-style: solid;
+    border-radius: 5;
+    padding: 3px;
+    min-width: 9ex;
+    min-height: 2.5ex;
+}
+
+QPushButton:hover {
+   background-color: khaki;
+}
+
+/* 增加填充，这样当按下按钮时文本会移动。 */
+QPushButton:pressed {
+    padding-left: 5px;
+    padding-top: 5px;
+    background-color: #d0d67c;
+}
+
+QLabel, QAbstractButton {
+    font: bold;
+}
+
+/* 用棕色标记强制字段。 */
+.mandatory {
+    color: brown;
+}
+
+/* 状态栏上的粗体文本看起来很糟糕。 */
+QStatusBar QLabel {
+   font: normal;
+}
+
+QStatusBar::item {
+    border-width: 1;
+    border-color: darkkhaki;
+    border-style: solid;
+    border-radius: 2;
+}
+
+QStackedWidget, QComboBox, QLineEdit, QSpinBox, QTextEdit, QListView, QWebView, QTreeView, QHeaderView {
+    background-color: cornsilk;
+    selection-color: #0a214c;
+    selection-background-color: #C19A6B;
+}
+
+QListView {
+    show-decoration-selected: 1;
+}
+
+QListView::item:hover {
+    background-color: wheat;
+}
+
+/* 在填充中保留1个像素空间。当得到焦点时，就消除填充并扩大边界。
+    看起来像物品在发光。 */
+QLineEdit, QFrame {
+    border-width: 1px;
+    padding: 1px;
+    border-style: solid;
+    border-color: darkkhaki;
+    border-radius: 5px;
+}
+
+/* 消除填充并增加边框。 */
+QLineEdit:focus, QFrame:focus {
+    border-width: 3px;
+    padding: 0px;
+}
+
+/* QLabel控件  */
+QLabel {
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+/*  QLabel 上的 QToolTip提示  */
+QToolTip {
+    border: 2px solid darkkhaki;
+    padding: 5px;
+    border-radius: 3px;
+    opacity: 200;
+}
+
+/* 悬停时背景颜色改变*/
+QRadioButton:hover, QCheckBox:hover {
+    background-color: wheat;
+}
+
+/* 对话框的按钮遵循Windows样式 */
+QDialogButtonBox {
+    button-layout: 0;
+}

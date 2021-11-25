@@ -25,6 +25,17 @@ int main(int argc, char *argv[]) {
   QTextCodec *codec = QTextCodec::codecForName("utf-8");
   QTextCodec::setCodecForLocale(codec);
 #endif
+
+  QFile qssFile(":/resource/qss/style.qss");
+  qssFile.open(QFile::ReadOnly); //以只读方式打开
+  if (qssFile.isOpen()) {
+    QString qss = QLatin1String(qssFile.readAll());
+    qApp->setStyleSheet(qss);
+    qssFile.close();
+  } else {
+    qDebug() << "无法打开qss资源文件";
+  }
+
   Widget w;
   w.show();
   return a.exec();

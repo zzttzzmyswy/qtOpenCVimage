@@ -58,4 +58,5 @@ DISTFILES += \
     tools.png
 
 RESOURCES += \
-    image.qrc
+    image.qrc \
+    qss.qrc
