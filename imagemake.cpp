@@ -880,28 +880,30 @@ void imageMake::makeSaltPepperNoise(QImage inimage, QImage *outimage,
 }
 
 cv::Mat imageMake::QImageToMat(QImage image) {
-  cv::Mat mat;
+  cv::Mat mat,mat2;
   switch (image.format()) {
   case QImage::Format_ARGB32:
   case QImage::Format_RGB32:
   case QImage::Format_ARGB32_Premultiplied:
     mat = cv::Mat(image.height(), image.width(), CV_8UC4,
                   (void *)image.constBits(), image.bytesPerLine());
+    mat2=mat.clone();
     break;
   case QImage::Format_RGB888:
     mat = cv::Mat(image.height(), image.width(), CV_8UC3,
                   (void *)image.constBits(), image.bytesPerLine());
-    cv::cvtColor(mat, mat, CV_BGR2RGB);
+    cv::cvtColor(mat.clone(), mat2, CV_BGR2RGB);
     break;
   case QImage::Format_Indexed8:
   case QImage::Format_Grayscale8:
     mat = cv::Mat(image.height(), image.width(), CV_8UC1,
                   (void *)image.constBits(), image.bytesPerLine());
+    mat2=mat.clone();
     break;
   default:
-    return mat;
+    return mat2;
   }
-  return mat;
+  return mat2;
 }
 
 QImage imageMake::MatToQImage(const cv::Mat &mat) {

@@ -25,7 +25,7 @@ WINPC{
 }else{
 ##### linux
     INCLUDEPATH += /usr/include/opencv4
-    LIBS += /usr/lib/x86_64-linux-gnu/libopencv_*.so
+    LIBS += /usr/lib/libopencv_*.so
 }
 
 

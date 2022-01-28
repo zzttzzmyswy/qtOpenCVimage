@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
   QTextCodec::setCodecForLocale(codec);
 #endif
 
+#if 0 /* not need css file */
   QFile qssFile(":/resource/qss/style.qss");
   qssFile.open(QFile::ReadOnly); //以只读方式打开
   if (qssFile.isOpen()) {
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]) {
   } else {
     qDebug() << "无法打开qss资源文件";
   }
-
+#endif
   Widget w;
   w.show();
   return a.exec();
