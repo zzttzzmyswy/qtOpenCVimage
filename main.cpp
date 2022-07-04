@@ -1,15 +1,11 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)
-#pragma execution_character_set("utf-8")
-#endif
-
-#include "widget.h"
+﻿#include "widget.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
   /* 设置中文字体 */
-  a.setFont(QFont("Microsoft Yahei", 10));
+  a.setFont(QFont("Microsoft Yahei", 9));
 
   /* 设置中文编码 */
 #if (QT_VERSION <= QT_VERSION_CHECK(5, 0, 0))

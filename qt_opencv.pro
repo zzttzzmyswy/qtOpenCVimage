@@ -13,16 +13,20 @@ CONFIG += c++11
 
 # User start
 
-WINPC{
+CONFIG += debug_and_release
+
+win32{
 ##### windows
-    INCLUDEPATH += D:/App/openCV/opencv/build/include/
+    INCLUDEPATH += G:/app/openCV/opencv/build/include/
+    #msvc编译时需要确保代码文件为utf-8
     QMAKE_CXXFLAGS += /utf-8
     CONFIG(debug, debug|release) {
-    LIBS += D:/App/openCV/opencv/build/x64/vc15/lib/opencv_world454d.lib
-    } else {
-    LIBS += D:/App/openCV/opencv/build/x64/vc15/lib/opencv_world454.lib
+    LIBS += G:/app/opencv/opencv/build/x64/vc15/lib/opencv_world460d.lib
+    }else{
+    LIBS += G:/app/opencv/opencv/build/x64/vc15/lib/opencv_world460.lib
     }
-}else{
+}
+unix{
 ##### linux
     INCLUDEPATH += /usr/include/opencv4
     LIBS += /usr/lib/libopencv_*.so
